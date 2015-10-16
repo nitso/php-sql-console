@@ -10,5 +10,6 @@
   ],
   "main": "bin/console.php",
   "output": "console.phar",
+  "compression": 4096,
   "stub": true
 }
