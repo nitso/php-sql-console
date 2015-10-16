@@ -37,6 +37,7 @@ class Application extends \Symfony\Component\Console\Application
             new Command\Connect(),
             new Command\Status(),
             new Command\E(),
+            new Command\ExitCommand(),
         );
     }
 
