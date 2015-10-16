@@ -1,10 +1,12 @@
 # Universal SQL console client 
 
-Purpose is to provide similar-look console client for different SQL servers. 
+Purpose is to provide similar-look console client for different SQL servers. It is for you, terminal-geek!
+
+Inspired by mysql client and https://github.com/nitso/colour-mysql-console :)
 
 ## Features
 
-- Database support (http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/introduction.html): 
+- Database support ([as of Doctrine](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/introduction.html)): 
   - MySQL
   - Oracle
   - Microsoft SQL Server
@@ -17,7 +19,7 @@ Purpose is to provide similar-look console client for different SQL servers.
 
 - PHP 5.3+
 - php_pdo extension
-- specific database driver (http://php.net/manual/en/pdo.drivers.php)
+- specific database [driver](http://php.net/manual/en/pdo.drivers.php)
 - console
 
 ## Usage
@@ -37,6 +39,12 @@ To execute a statement use `e` command:
 ```
 SQL Console > e SELECT * FROM test_table
 ```
+
+## Roadmap
+- autocompletion for SQL objects: databases/tables/fields
+- autocompletion for SQL statements
+- advanced SQL statement execution: prepared statements and bindable parameters
+- table/vertical(like mysql \G)/json/php-array data output
 
 ## Internals
 
