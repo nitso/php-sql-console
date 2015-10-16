@@ -1,0 +1,14 @@
+{
+  "alias": "console.phar",
+  "directories": [
+    "src",
+    "vendor",
+    "bin"
+  ],
+  "files": [
+    "LICENSE"
+  ],
+  "main": "bin/console.php",
+  "output": "console.phar",
+  "stub": true
+}

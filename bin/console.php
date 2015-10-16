@@ -1,8 +1,8 @@
 <?php
 
-if (PHP_SAPI != 'cli') exit(1);
+if (PHP_SAPI !== 'cli') die('Only console usage permitted');
 
-require_once 'vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $application = new \Nitso\SqlConsole\Application('SQL Console', '');
 

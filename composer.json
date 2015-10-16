@@ -10,6 +10,8 @@
     }
   ],
   "require": {
+    "php": ">=5.3",
+    "ext-pdo": "*",
     "symfony/console": "~2.7.0",
     "doctrine/dbal": "~2.5.0"
   },
@@ -22,6 +24,6 @@
     }
   },
   "bin": [
-    "console.php"
+    "bin/console.php"
   ]
 }
