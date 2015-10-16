@@ -80,7 +80,8 @@ class Shell
         return <<<EOF
 Welcome to the <info>{$this->application->getName()}</info> shell.
 Type <comment>help</comment> for some help, or <comment>list</comment> to get a list of available commands.
-To exit the shell, hit <comment>^C</comment>.
+To exit the shell, hit <comment>^C</comment> or type <comment>exit</comment>.
+
 EOF;
     }
 }
