@@ -40,6 +40,11 @@ To execute a statement use `e` command:
 SQL Console > e SELECT * FROM test_table
 ```
 
+## Screens
+
+![basic example](doc/example-screen.png)
+
+
 ## Roadmap
 - autocompletion for SQL objects: databases/tables/fields
 - autocompletion for SQL statements
