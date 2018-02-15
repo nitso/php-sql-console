@@ -148,6 +148,12 @@ EOF;
     private function autocompleter($text)
     {
         $info = readline_info();
+
+        // try to overcome some buggy windows libraries
+        if (!isset($info['end']) && PHP_OS == 'WINNT') {
+            $info['end'] = $info['point'];
+        }
+
         $text = substr($info['line_buffer'], 0, $info['end']);
         if ($info['point'] !== $info['end']) {
             return true;
