@@ -6,10 +6,14 @@ use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Nitso\SqlConsole\Command;
+use Nitso\SqlConsole\Command\Auxiliary as AuxCommand;
+use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Command\HelpCommand;
 use Symfony\Component\Console\Command\ListCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class Application extends \Symfony\Component\Console\Application
+class Application extends ConsoleApplication
 {
     /**
      * @var Connection
@@ -37,7 +41,8 @@ class Application extends \Symfony\Component\Console\Application
             new Command\Connect(),
             new Command\Status(),
             new Command\E(),
-            new Command\ExitCommand(),
+            new AuxCommand\ExitCommand(),
+            new AuxCommand\EmptyCommand(),
         );
     }
 
@@ -76,5 +81,16 @@ class Application extends \Symfony\Component\Console\Application
     {
         $this->prompt = $prompt;
         return $this;
+    }
+
+    /**
+     * Stupid hack just to reuse IO configuration code. Sorry for that.
+     *
+     * @see Shell::run
+     * @inheritdoc
+     */
+    public function preConfigureIO(InputInterface $input, OutputInterface $output)
+    {
+        parent::configureIO($input, $output);
     }
 }

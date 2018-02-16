@@ -34,8 +34,10 @@ class Connect extends Command
     {
         $dsn = $input->getArgument('dsn');
 
-        $this->getApplication()->setPrompt('Connected');
         $this->getApplication()->connect($dsn);
+
+        $driver = $this->getApplication()->getConnection()->getDriver()->getName();
+        $this->getApplication()->setPrompt('Connected (' . $driver . ')');
 
         return 0;
     }

@@ -2,6 +2,7 @@
 
 namespace Nitso\SqlConsole;
 
+use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -32,6 +33,16 @@ class Shell
     private $hasReadline;
 
     /**
+     * @var bool
+     */
+    private $defaultIsInteractive;
+
+    /**
+     * @var int
+     */
+    private $defaultVerbosity;
+
+    /**
      * Shell constructor.
      * @param Application $application
      */
@@ -55,8 +66,9 @@ class Shell
             readline_read_history($this->history);
             readline_completion_function(array($this, 'autocompleter'));
         }
+
         $this->output->writeln($this->getHeader());
-        $php = null;
+        $this->saveDefaultIOBehavior();
 
         while (true) {
             $command = $this->readline();
@@ -72,7 +84,10 @@ class Shell
                 readline_write_history($this->history);
             }
 
-            $ret = $this->application->run(new StringInput($command), $this->output);
+            $input = new StringInput($command);
+            $input->setInteractive($this->defaultIsInteractive);
+            $ret = $this->application->run($input, $this->output);
+            $this->output->setVerbosity($this->defaultVerbosity);
 
             if (0 !== $ret) {
                 $this->output->writeln(sprintf('<error>The command terminated with an error status (%s)</error>', $ret));
@@ -80,6 +95,20 @@ class Shell
         }
     }
 
+    /**
+     * Saving options from shell start command so you can set verbosity
+     * Restoring these options later before/after executing every command
+
+     * @return void
+     */
+    private function saveDefaultIOBehavior()
+    {
+        $shellInput = new ArgvInput();
+        $this->application->preConfigureIO($shellInput, $this->output);
+
+        $this->defaultIsInteractive = $shellInput->isInteractive();
+        $this->defaultVerbosity = $this->output->getVerbosity();
+    }
 
     /**
      * Reads a single line from standard input.
@@ -106,7 +135,7 @@ class Shell
     protected function getPrompt()
     {
         // using the formatter here is required when using readline
-        return $this->output->getFormatter()->format($this->application->getPrompt().' > ');
+        return $this->output->getFormatter()->format($this->application->getPrompt() . ' > ');
     }
 
     /**

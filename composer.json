@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "php": ">=5.3",
+    "php": ">=5.3.9",
     "ext-pdo": "*",
     "symfony/console": "~2.7.0",
     "doctrine/dbal": "~2.5.0"
