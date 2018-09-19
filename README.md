@@ -60,5 +60,5 @@ Following libraries are used:
 
 `\Nitso\SqlConsole\Shell` class was inspired by `Symfony\Component\Console\Shell` and rewritten to modify private (sic!) methods of original class.  
 
-Requires https://github.com/box-project/box2 for building phar archive. \
-Just install project without dev dependencies `composer install --no-dev` and update application with `box update` 
+Requires https://github.com/humbug/box for building phar archive. \
+Just install project without dev dependencies `composer install --no-dev` and update application with `box compile` 

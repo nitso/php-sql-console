@@ -1,15 +1,27 @@
 {
   "alias": "console.phar",
-  "directories": [
-    "src",
-    "vendor",
-    "bin"
-  ],
   "files": [
     "LICENSE"
   ],
+  "directories": [
+    "src",
+    "vendor"
+  ],
+  "blacklist": [
+    "Tests",
+    "Tester"
+  ],
+  "compactors": [
+    "KevinGH\\Box\\Compactor\\Php"
+  ],
   "main": "bin/console.php",
   "output": "console.phar",
-  "compression": 4096,
-  "stub": true
+  "compression": "GZ",
+  "banner": [
+    "This file is part of https://github.com/nitso/php-sql-console project",
+    "(c) Alexey Kalinin <nitso@yandex.ru>",
+    "",
+    "This source file is subject to the MIT license that is bundled",
+    "with this source code in the file LICENSE."
+  ]
 }
