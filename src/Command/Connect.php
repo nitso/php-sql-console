@@ -29,6 +29,7 @@ class Connect extends Command
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int
+     * @throws \Doctrine\DBAL\DBALException
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -36,8 +37,10 @@ class Connect extends Command
 
         $this->getApplication()->connect($dsn);
 
-        $driver = $this->getApplication()->getConnection()->getDriver()->getName();
-        $this->getApplication()->setPrompt('Connected (' . $driver . ')');
+        $host = $this->getApplication()->getConnection()->getHost();
+        $database = $this->getApplication()->getConnection()->getDatabase();
+
+        $this->getApplication()->setPrompt(sprintf('Connected (%s/%s)', $host, $database));
 
         return 0;
     }

@@ -39,6 +39,7 @@ class Application extends ConsoleApplication
             new ListCommand(),
             new HelpCommand(),
             new Command\Connect(),
+            new Command\Disconnect(),
             new Command\Status(),
             new Command\E(),
             new Command\Show(),
