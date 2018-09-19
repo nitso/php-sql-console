@@ -34,13 +34,8 @@ class Connect extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $dsn = $input->getArgument('dsn');
-
-        $this->getApplication()->connect($dsn);
-
-        $host = $this->getApplication()->getConnection()->getHost();
-        $database = $this->getApplication()->getConnection()->getDatabase();
-
-        $this->getApplication()->setPrompt(sprintf('Connected (%s/%s)', $host, $database));
+        $this->getApplication()->setDsn($dsn);
+        $this->getApplication()->connect();
 
         return 0;
     }

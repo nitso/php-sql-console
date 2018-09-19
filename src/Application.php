@@ -31,6 +31,16 @@ class Application extends ConsoleApplication
     private $prompt;
 
     /**
+     * @var string[]
+     */
+    private $dsnParams;
+
+    /**
+     * @var string
+     */
+    private $dsn;
+
+    /**
      * @return array
      */
     public function getDefaultCommands()
@@ -43,20 +53,39 @@ class Application extends ConsoleApplication
             new Command\Status(),
             new Command\E(),
             new Command\Show(),
+            new Command\UseDB(),
             new AuxCommand\ExitCommand(),
             new AuxCommand\EmptyCommand(),
         );
     }
 
     /**
-     * @param string $dsn
      * @throws \Doctrine\DBAL\DBALException
      */
-    public function connect($dsn)
+    public function connect()
     {
         $this->configuration = new Configuration();
-        $this->connection = DriverManager::getConnection(array('url' => $dsn), $this->configuration);
+        $this->connection = DriverManager::getConnection(array('url' => $this->dsn), $this->configuration);
         $this->connection->connect();
+
+        $this->setConnectionPrompt();
+    }
+
+    /**
+     * @return void
+     */
+    public function setConnectionPrompt()
+    {
+        if (!$this->connection || !$this->connection->isConnected()) {
+            $this->setPrompt($this->getName());
+        }
+
+
+        $this->setPrompt(sprintf(
+            'Connected (%s/%s)',
+            $this->connection->getHost(),
+            $this->connection->getDatabase()
+        ));
     }
 
     /**
@@ -94,5 +123,83 @@ class Application extends ConsoleApplication
     public function preConfigureIO(InputInterface $input, OutputInterface $output)
     {
         parent::configureIO($input, $output);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDatabase()
+    {
+        return empty($this->dsnParams['path']) ? '' : ltrim('/', $this->dsnParams['path']);
+    }
+
+    /**
+     * @param string $database
+     * @return $this
+     */
+    public function setDatabase($database)
+    {
+        $params = $this->getDsnParams();
+        $params['path'] = '/' . $database;
+        $this->setDsnParams($params);
+
+        return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    protected function getDsnParams()
+    {
+        return $this->dsnParams;
+    }
+
+    /**
+     * @param string $dsnParams
+     * @return $this
+     */
+    public function setDsnParams($dsnParams)
+    {
+        $this->dsnParams = $dsnParams;
+        $this->dsn = $this->buildUrl($this->dsnParams);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getDsn()
+    {
+        return $this->dsn;
+    }
+
+    /**
+     * @param string $dsn
+     * @return $this
+     */
+    public function setDsn($dsn)
+    {
+        $this->dsn = $dsn;
+        $this->dsnParams = parse_url($dsn);
+        return $this;
+    }
+
+    /**
+     * SO-driven development https://stackoverflow.com/a/35207936/824926
+     * @param array $parts
+     * @return string
+     */
+    private function buildUrl(array $parts) {
+        return
+            (isset($parts['scheme']) ? "{$parts['scheme']}:" : '') .
+            ((isset($parts['user']) || isset($parts['host'])) ? '//' : '') .
+            (isset($parts['user']) ? "{$parts['user']}" : '') .
+            (isset($parts['pass']) ? ":{$parts['pass']}" : '') .
+            (isset($parts['user']) ? '@' : '') .
+            (isset($parts['host']) ? "{$parts['host']}" : '') .
+            (isset($parts['port']) ? ":{$parts['port']}" : '') .
+            (isset($parts['path']) ? "{$parts['path']}" : '') .
+            (isset($parts['query']) ? "?{$parts['query']}" : '') .
+            (isset($parts['fragment']) ? "#{$parts['fragment']}" : '');
     }
 }
