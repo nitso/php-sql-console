@@ -4,16 +4,12 @@ namespace Nitso\SqlConsole\Command;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\PDOException;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * @method \Nitso\SqlConsole\Application getApplication()
- */
-class E extends Command
+class E extends AbstractDatabaseCommand
 {
     /**
      * @var int
@@ -53,7 +49,7 @@ class E extends Command
             return 0;
         }
 
-        $isSelectQuery = strcasecmp($queryArguments[0], 'select');
+        $isSelectQuery = strcasecmp($queryArguments[0], 'select') === 0;
         $result = null;
 
         try {

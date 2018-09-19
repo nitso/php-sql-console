@@ -41,6 +41,7 @@ class Application extends ConsoleApplication
             new Command\Connect(),
             new Command\Status(),
             new Command\E(),
+            new Command\Show(),
             new AuxCommand\ExitCommand(),
             new AuxCommand\EmptyCommand(),
         );
