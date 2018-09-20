@@ -172,7 +172,7 @@ EOF;
      *
      * @param string $text The last segment of the entered text
      *
-     * @return bool|array A list of guessed strings or true
+     * @return array A list of guessed strings
      */
     private function autocompleter($text)
     {
@@ -185,7 +185,7 @@ EOF;
 
         $text = substr($info['line_buffer'], 0, $info['end']);
         if ($info['point'] !== $info['end']) {
-            return true;
+            return array();
         }
         // task name?
         if (false === strpos($text, ' ') || !$text) {
@@ -195,7 +195,7 @@ EOF;
         try {
             $command = $this->application->find(substr($text, 0, strpos($text, ' ')));
         } catch (\Exception $e) {
-            return true;
+            return array();
         }
         $list = array('--help');
         foreach ($command->getDefinition()->getOptions() as $option) {
