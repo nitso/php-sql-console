@@ -41,7 +41,7 @@ class Application extends ConsoleApplication
     private $dsn;
 
     /**
-     * @return array
+     * @inheritdoc
      */
     public function getDefaultCommands()
     {
@@ -115,7 +115,7 @@ class Application extends ConsoleApplication
     }
 
     /**
-     * Stupid hack just to reuse IO configuration code. Sorry for that.
+     * Stupid hack just to reuse protected IO configuration code. Sorry for that.
      *
      * @see Shell::run
      * @inheritdoc
@@ -155,7 +155,7 @@ class Application extends ConsoleApplication
     }
 
     /**
-     * @param string $dsnParams
+     * @param array $dsnParams
      * @return $this
      */
     public function setDsnParams($dsnParams)
